@@ -25,5 +25,5 @@ class History < ApplicationRecord
   
   validates :url, :title, presence: true
   validates :url, format: /\A#{URI::regexp(%w(http https))}\z/
-  validates :title, length: { maximum: 30 }
+  validates :title, length: { maximum: 100 }
 end

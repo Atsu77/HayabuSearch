@@ -21,7 +21,6 @@ require 'rails_helper'
 
 RSpec.describe History, type: :model do
   before do
-    # FactoryBot.create(:user_yamada)
     FactoryBot.create(:history_yamada_1)
   end
 
@@ -35,47 +34,47 @@ RSpec.describe History, type: :model do
         expect(history).to be_valid
       end
     end
-  end
 
-  describe 'History登録の条件' do
-    let(:history_yamada_1) { History.first }
+    describe 'History登録の条件' do
+      let(:history_yamada_1) { History.first }
 
-    context '存在性の確認' do
-      it 'urlがないと登録できないこと' do
-        history_yamada_1.url = ''
-        expect(history_yamada_1).not_to be_valid
-        expect(history_yamada_1.errors.full_messages).to include('Urlを入力してください' && 'Urlは不正な値です')
-        expect(history_yamada_1.save).to be_falsey
+      context '存在性の確認' do
+        it 'urlがないと登録できないこと' do
+          history_yamada_1.url = ''
+          expect(history_yamada_1).not_to be_valid
+          expect(history_yamada_1.errors.full_messages).to include('Urlを入力してください' && 'Urlは不正な値です')
+          expect(history_yamada_1.save).to be_falsey
+        end
+
+        it 'titleがないと登録できないこと' do
+          history_yamada_1.title = ''
+          expect(history_yamada_1).not_to be_valid
+          expect(history_yamada_1.errors.full_messages).to include('Titleを入力してください')
+          expect(history_yamada_1.save).to be_falsey
+        end
       end
 
-      it 'titleがないと登録できないこと' do
-        history_yamada_1.title = ''
-        expect(history_yamada_1).not_to be_valid
-        expect(history_yamada_1.errors.full_messages).to include('Titleを入力してください')
-        expect(history_yamada_1.save).to be_falsey
+      context 'urlのフォーマットの検証' do
+        it 'urlにはhttpかhttpsが含まれること' do
+          history_yamada_1.url = 'htt://google.com'
+          expect(history_yamada_1).not_to be_valid
+          expect(history_yamada_1.errors.full_messages).to include('Urlは不正な値です')
+          expect(history_yamada_1.save).to be_falsey
+        end
       end
-    end
 
-    context 'urlのフォーマットの検証' do
-      it 'urlにはhttpかhttpsが含まれること' do
-        history_yamada_1.url = 'htt://google.com'
-        expect(history_yamada_1).not_to be_valid
-        expect(history_yamada_1.errors.full_messages).to include('Urlは不正な値です')
-        expect(history_yamada_1.save).to be_falsey
-      end
-    end
-
-    context '文字の長さの検証' do
-      it 'titleは30文字より大きいと登録できないこと' do
-        history_yamada_1.title = 'a'*31
-        expect(history_yamada_1).not_to be_valid
-        expect(history_yamada_1.errors.full_messages).to include('Titleは30文字以内で入力してください')
-        expect(history_yamada_1.save).to be_falsey
-      end
-      it 'titleは30文字以下であれば登録できること' do
-        history_yamada_1.title = 'a'*30
-        expect(history_yamada_1).to be_valid
-        expect(history_yamada_1.save).to be_truthy
+      context '文字の長さの検証' do
+        it 'titleは100文字より大きいと登録できないこと' do
+          history_yamada_1.title = 'a' * 101
+          expect(history_yamada_1).not_to be_valid
+          expect(history_yamada_1.errors.full_messages).to include('Titleは100文字以内で入力してください')
+          expect(history_yamada_1.save).to be_falsey
+        end
+        it 'titleは100文字以下であれば登録できること' do
+          history_yamada_1.title = 'a' * 100
+          expect(history_yamada_1).to be_valid
+          expect(history_yamada_1.save).to be_truthy
+        end
       end
     end
   end
