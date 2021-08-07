@@ -25,6 +25,8 @@ gem 'rails-i18n'
 gem 'rubocop'
 gem 'annotate'
 gem 'devise'
+gem 'faker'
+gem 'gimei'
 
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
@@ -39,7 +41,6 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'rspec-rails'
   gem "factory_bot_rails"
-  gem 'faker'
 end
 
 group :development do
