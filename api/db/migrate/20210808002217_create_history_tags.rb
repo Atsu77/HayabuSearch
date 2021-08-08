@@ -1,6 +1,6 @@
-class HistoryTag < ActiveRecord::Migration[6.1]
+class CreateHistoryTags < ActiveRecord::Migration[6.1]
   def change
-    create_table :historytag do |t|
+    create_table :history_tags do |t|
       t.references :history, null: false, foreign_key: true
       t.references :tag, null: false, foreign_key: true
 

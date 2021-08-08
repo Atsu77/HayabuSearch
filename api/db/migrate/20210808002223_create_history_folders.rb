@@ -1,6 +1,6 @@
-class HistoryFolder < ActiveRecord::Migration[6.1]
+class CreateHistoryFolders < ActiveRecord::Migration[6.1]
   def change
-    create_table :historyfolder do |t|
+    create_table :history_folders do |t|
       t.references :history, null: false, foreign_key: true
       t.references :folder, null: false, foreign_key: true
 
