@@ -5,3 +5,21 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+require 'gimei'
+
+# 50人のユーザーを登録
+50.times do |i|
+  user_name = Gimei.name.kanji
+  user_email = Faker::Internet.email 
+  user_password = 'password'
+
+  user = User.new(
+    name: user_name,
+    email: user_email,
+    password: user_password,
+  )
+
+  user.save!
+
+end
