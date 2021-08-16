@@ -2,40 +2,19 @@
 #
 # Table name: users
 #
-#  id                     :bigint           not null, primary key
-#  allow_password_change  :boolean          default(FALSE)
-#  confirmation_sent_at   :datetime
-#  confirmation_token     :string
-#  confirmed_at           :datetime
-#  email                  :string
-#  encrypted_password     :string           default(""), not null
-#  image                  :string
-#  name                   :string
-#  provider               :string           default("email"), not null
-#  remember_created_at    :datetime
-#  reset_password_sent_at :datetime
-#  reset_password_token   :string
-#  tokens                 :json
-#  uid                    :string           default(""), not null
-#  unconfirmed_email      :string
-#  created_at             :datetime         not null
-#  updated_at             :datetime         not null
-#
-# Indexes
-#
-#  index_users_on_confirmation_token    (confirmation_token) UNIQUE
-#  index_users_on_email                 (email) UNIQUE
-#  index_users_on_reset_password_token  (reset_password_token) UNIQUE
-#  index_users_on_uid_and_provider      (uid,provider) UNIQUE
+#  id              :bigint           not null, primary key
+#  email           :string           not null
+#  name            :string           not null
+#  password_digest :string           not null
+#  created_at      :datetime         not null
+#  updated_at      :datetime         not null
 #
 class User < ApplicationRecord
-  # Include default devise modules.
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-  include DeviseTokenAuth::Concerns::User
-
+  has_secure_password
+  
+  VALID_EMAIL_REGREX = /\A[\w+\-.]+@[a-z\d\-.]+\.[a-z]+\z/i 
   validates :name, presence: true
   validates :name, length: { maximum: 30 }
   validates :email, uniqueness: true
-  has_many :histories, dependent: :destroy
+  validates :email, format: {with: VALID_EMAIL_REGREX} 
 end

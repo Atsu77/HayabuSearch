@@ -10,80 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_08_08_002223) do
+ActiveRecord::Schema.define(version: 2021_08_15_025056) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "folders", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_folders_on_user_id"
-  end
-
-  create_table "histories", force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.string "url", null: false
-    t.string "title", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["user_id"], name: "index_histories_on_user_id"
-  end
-
-  create_table "history_folders", force: :cascade do |t|
-    t.bigint "history_id", null: false
-    t.bigint "folder_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["folder_id"], name: "index_history_folders_on_folder_id"
-    t.index ["history_id"], name: "index_history_folders_on_history_id"
-  end
-
-  create_table "history_tags", force: :cascade do |t|
-    t.bigint "history_id", null: false
-    t.bigint "tag_id", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["history_id"], name: "index_history_tags_on_history_id"
-    t.index ["tag_id"], name: "index_history_tags_on_tag_id"
-  end
-
-  create_table "tags", force: :cascade do |t|
-    t.string "tag_name", null: false
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-  end
-
   create_table "users", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "image"
-    t.string "email"
-    t.json "tokens"
+    t.string "name", null: false
+    t.string "email", null: false
+    t.string "password_digest", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
-  add_foreign_key "folders", "users"
-  add_foreign_key "histories", "users"
-  add_foreign_key "history_folders", "folders"
-  add_foreign_key "history_folders", "histories"
-  add_foreign_key "history_tags", "histories"
-  add_foreign_key "history_tags", "tags"
 end

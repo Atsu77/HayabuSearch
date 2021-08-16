@@ -5,5 +5,7 @@ RUN mkdir /app
 WORKDIR /app
 COPY Gemfile /app/Gemfile
 COPY Gemfile.lock /app/Gemfile.lock
-RUN bundle install
+
+RUN bundle install --path vendor/bundle
+RUN bundle config set path 'vendor/bundle'
 COPY . /app
